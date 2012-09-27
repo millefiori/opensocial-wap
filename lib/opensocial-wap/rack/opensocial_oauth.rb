@@ -35,7 +35,7 @@ module OpensocialWap
       def verify(env)
         verified = false
         request = ::Rack::Request.new(env)
-        helper = @helper_class.new(request)
+        helper = @helper_class.respond_to?(:call) ? @helper_class.call(request) : @helper_class.new(request)
 
         if request.env['HTTP_AUTHORIZATION']
           if helper.verify
